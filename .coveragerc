@@ -1,0 +1,7 @@
+[run]
+
+source =
+    dwpse
+    tests
+
+parallel = True
