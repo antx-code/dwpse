@@ -22,7 +22,10 @@ class MongodbScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = MongoClient(host=args[0], port=args[1], username=args[2], password=urlquote(args[3]), socketTimeoutMS=self.timeout_ms, connectTimeoutMS=self.timeout_ms, serverSelectionTimeoutMS=self.timeout_ms)
+        try:
+            connection = MongoClient(host=args[0], port=args[1], username=args[2], password=urlquote(args[3]), socketTimeoutMS=self.timeout_ms, connectTimeoutMS=self.timeout_ms, serverSelectionTimeoutMS=self.timeout_ms)
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

@@ -26,7 +26,10 @@ class MssqlScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = create_engine(f"mssql+pymssql://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/tempdb", encoding='utf-8', connect_args={'timeout': self.timeout})
+        try:
+            connection = create_engine(f"mssql+pymssql://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/tempdb", encoding='utf-8', connect_args={'timeout': self.timeout})
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

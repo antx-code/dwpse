@@ -20,7 +20,10 @@ class PostgresqlScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = create_engine(f'postgresql://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/postgres', connect_args={'connect_timeout': self.timeout})
+        try:
+            connection = create_engine(f'postgresql://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/postgres', connect_args={'connect_timeout': self.timeout})
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

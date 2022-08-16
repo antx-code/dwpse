@@ -19,7 +19,10 @@ class RedisScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = Redis(host=args[0], password=args[3], port=args[1], db=0, socket_connect_timeout=self.timeout, socket_timeout=self.timeout)
+        try:
+            connection = Redis(host=args[0], password=args[3], port=args[1], db=0, socket_connect_timeout=self.timeout, socket_timeout=self.timeout)
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

@@ -21,7 +21,10 @@ class ClickhouseScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = create_engine(f"clickhouse://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/default?timeout=2", connect_args={'connect_timeout': self.timeout})
+        try:
+            connection = create_engine(f"clickhouse://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/default?timeout={self.timeout}", connect_args={'connect_timeout': self.timeout})
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

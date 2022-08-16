@@ -24,7 +24,10 @@ class ElasticsearchScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = Elasticsearch([f'{args[0]}:{args[1]}'], http_auth=(args[2], urlquote(args[3])), timeout=self.timeout)
+        try:
+            connection = Elasticsearch([f'{args[0]}:{args[1]}'], http_auth=(args[2], urlquote(args[3])), timeout=self.timeout)
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')

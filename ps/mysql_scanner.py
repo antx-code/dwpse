@@ -20,7 +20,16 @@ class MysqlScanner(ScannerEngine):
 
     @logger.catch(level='ERROR')
     def create_connect(self, *args):
-        connection = create_engine(f"mysql+mysqlconnector://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/ictbda?auth_plugin=mysql_native_password", encoding='utf-8', connect_args={'connect_timeout': self.timeout})
+        try:
+            connection = create_engine(
+                f"mysql+pymysql://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}",
+                encoding='utf-8', connect_args={'connect_timeout': self.timeout})
+        except ConnectionError:
+            connection = create_engine(
+                f"mysql+mysqlconnector://{args[2]}:{urlquote(args[3])}@{args[0]}:{args[1]}/mysql?auth_plugin=mysql_native_password",
+                encoding='utf-8', connect_args={'connect_timeout': self.timeout})
+        except Exception as e:
+            connection = False
         return connection
 
     @logger.catch(level='ERROR')
