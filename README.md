@@ -9,7 +9,7 @@ which like fofa search and parse assets to verify. psex has been built in some w
 ## Install
 
 ```bash
-git clone https://github.com/antx-code/dwpse
+git clone https://github.com/antx-code/dwpse.git
 ```
 
 ## Install Dependencies
