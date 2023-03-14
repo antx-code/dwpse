@@ -137,5 +137,5 @@ htmlcov
 coverage.xml
 *.pyc
 __pycache__
-/input/
-/output/
+/input/*.csv
+/output/*.csv

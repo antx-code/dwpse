@@ -37,5 +37,5 @@ python3 db_scanner.py redis targets.csv
 from db_scanner import dia
 
 if __name__ == '__main__':
-    dia('redis', 'targets.csv')
+    dia('redis', 'input/targets.csv')
 ```
