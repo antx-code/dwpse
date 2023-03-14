@@ -19,6 +19,14 @@ poetry install
 
 ## Usage
 
+You must have a target csv file in the input directory to scan and have an output directory to save the scan results, 
+which the two directories must be named `input` and `output`.
+The csv file content format is as follows:
+
+```csv
+ip:port
+```
+
 ### DWPSE Sample:
 
 #### command line sample:
@@ -37,5 +45,5 @@ python3 db_scanner.py redis targets.csv
 from db_scanner import dia
 
 if __name__ == '__main__':
-    dia('redis', 'input/targets.csv')
+    dia('redis', 'targets.csv')
 ```
