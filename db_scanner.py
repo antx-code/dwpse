@@ -12,7 +12,7 @@ def dia(database: str, target_file: str):
     try:
         package = importlib.import_module(f"ps.{database}_scanner")
         getattr(package, f'{db}Scanner')().dia(target_file)
-    except ImportError:
+    except ImportError as e:
         package = importlib.import_module(f".{database}_scanner", package='ps')
         getattr(package, f'{db}Scanner')().dia(target_file)
 
