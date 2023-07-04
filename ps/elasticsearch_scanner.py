@@ -79,7 +79,7 @@ class ElasticsearchScanner(ScannerEngine):
                 logger.warning(f'Testing {ip_port} with: {username}/{password} !')
                 result = self.poc(ip, port, username, password)
                 if result:
-                    asset_io.save2file('clickhouse_success', ip, port, username, password)
+                    asset_io.save2file('elasticsearch_success', ip, port, username, password)
                     logger.success(f'Found {ip_port} with password: "{password}" !')
                     break
 
