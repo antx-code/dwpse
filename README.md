@@ -19,20 +19,44 @@ poetry install
 
 ## Usage
 
-You must have a target csv file in the input directory to scan and have an output directory to save the scan results, 
-which the two directories must be named `input` and `output`.
-The csv file content format is as follows:
+You must have a target csv file to scan and the target csv file content format is as follows:
 
 ```csv
 ip:port
 ```
 
+If you want to use custom username and password, you can create a file named `username_password.txt`,
+and the content format is as follows:
+
+```text
+username password
+```
+
+also you can use `username_password.csv` and the content format is as follows:
+
+```csv
+username,password
+```
+
 ### DWPSE Sample:
 
 #### command line sample:
-
+See the help for more information.
+```shell
+python3 db_scanner.py --help
+```
+run with default username and password:
 ```shell
 python3 db_scanner.py redis targets.csv
+```
+use custom username and password:
+```shell
+python3 db_scanner.py redis targets.csv --passwords=username_password.txt
+```
+use fofa search and parse assets to verify:
+```shell
+python3 db_scanner.py redis targets.csv --passwords=username_password.txt --fofa_grammar='title="redis"' --fofa_key='xxx' --fofa_email='xxx@email.com'
+```
 ```
 
 #### python3 lib sample:
@@ -40,7 +64,7 @@ python3 db_scanner.py redis targets.csv
 ```python
 # Title: xxxxxxx
 # Author: antx
-# Email: wkaifeng2007@163.com
+# Email: 7877940+antx-code@users.noreply.github.com
 
 from db_scanner import dia
 
