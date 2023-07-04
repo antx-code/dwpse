@@ -55,7 +55,7 @@ python3 db_scanner.py redis targets.csv --passwords=username_password.txt
 ```
 use fofa search and parse assets to verify:
 ```shell
-python3 db_scanner.py redis targets.csv --passwords=username_password.txt --fofa_grammar='title="redis"' --fofa_key='xxx' --fofa_email='xxx@email.com'
+python3 db_scanner.py redis targets.csv fofa --passwords=username_password.txt --fofa-grammar='app="redis"' --fofa-key='xxx' --fofa-email='xxx@email.com'
 ```
 ```
 
