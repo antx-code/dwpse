@@ -69,17 +69,18 @@ class ElasticsearchScanner(ScannerEngine):
         else:
             raise Exception('Unsupported password types.')
 
-        for user_pwd in passwords:
-            username, password = next(iter(user_pwd.items()))
-            for ip_port in ips:
-                ip, port = ip_port.strip().split(':')
-                port = int(port)
-                logger.debug(f'Connecting to {ip} ......')
+        for ip_port in ips:
+            ip, port = ip_port.strip().split(':')
+            port = int(port)
+            logger.debug(f'Connecting to {ip} ......')
+            for user_pwd in passwords:
+                username, password = next(iter(user_pwd.items()))
+                password = password.strip()
                 logger.warning(f'Testing {ip_port} with: {username}/{password} !')
                 result = self.poc(ip, port, username, password)
                 if result:
-                    asset_io.save2file('elasticsearch_success', ip, port, username, password)
-                    logger.success(f'Found {ip_port} with password: "{password.strip()}" !')
+                    asset_io.save2file('clickhouse_success', ip, port, username, password)
+                    logger.success(f'Found {ip_port} with password: "{password}" !')
                     break
 
 

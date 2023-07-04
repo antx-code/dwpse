@@ -50,17 +50,17 @@ class RedisScanner(ScannerEngine):
         else:
             raise Exception('Unsupported password types.')
 
-        for password in passwords:
-            for ip_port in ips:
-                ip_port = ip_port.strip()
-                ip = ip_port.split(':')[0]
-                port = int(ip_port.split(':')[1])
-                logger.debug(f'Connecting to {ip} ......')
-                logger.warning(f'Testing {ip_port} with password: "{password.strip()}" !')
-                result = self.poc(ip, port, '', password.strip())
+        for ip_port in ips:
+            ip, port = ip_port.strip().split(':')
+            port = int(port)
+            logger.debug(f'Connecting to {ip} ......')
+            for password in passwords:
+                password = password.strip()
+                logger.warning(f'Testing {ip_port} with password: "{password}" !')
+                result = self.poc(ip, port, '', password)
                 if result:
-                    asset_io.save2file('redis_success', ip, port, '', password.strip())
-                    logger.success(f'Found {ip_port} with password: "{password.strip()}" !')
+                    asset_io.save2file('redis_success', ip, port, '', password)
+                    logger.success(f'Found {ip_port} with password: "{password}" !')
                     break
 
 
