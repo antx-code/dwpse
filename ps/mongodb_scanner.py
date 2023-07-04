@@ -77,6 +77,8 @@ class MongodbScanner(ScannerEngine):
                 result = self.poc(ip, port, username, password)
                 if result:
                     asset_io.save2file('mongodb_success', ip, port, username, password)
+                    logger.success(f'Found {ip_port} with password: "{password.strip()}" !')
+                    break
 
 
 if __name__ == '__main__':

@@ -60,6 +60,8 @@ class RedisScanner(ScannerEngine):
                 result = self.poc(ip, port, '', password.strip())
                 if result:
                     asset_io.save2file('redis_success', ip, port, '', password.strip())
+                    logger.success(f'Found {ip_port} with password: "{password.strip()}" !')
+                    break
 
 
 if __name__ == '__main__':
