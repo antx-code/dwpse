@@ -1,5 +1,7 @@
 from loguru import logger
 from redis import Redis
+from typing import Union
+import re
 from psex import ScannerEngine
 from psex.funcs.assetio import AssetIO
 from psex.weaks import weak_passwords
@@ -26,20 +28,38 @@ class RedisScanner(ScannerEngine):
         return connection
 
     @logger.catch(level='ERROR')
-    def dia(self, target_file: str = 'targets.csv'):
+    def dia(self, mode: str, target_file: str, passwords: Union[list, str] = None,
+            fofa_grammar: str = None, fofa_key: str = None, fofa_email: str = None):
         asset_io = AssetIO()
-        ips = asset_io.get_file_assets(target_file)
-        passwords = weak_passwords('redis')
+
+        if mode != 'file':
+            if not fofa_grammar or not fofa_key or not fofa_email:
+                raise Exception('Fofa mode required fofa grammar, fofa key and fofa email.')
+            ips = asset_io.get_fofa_assets(fofa_grammar, fofa_key, fofa_email, target_file)
+        else:
+            ips = asset_io.get_file_assets(target_file)
+
+        if not passwords:
+            passwords = weak_passwords('redis')
+        elif isinstance(passwords, str):
+            if re.search(r'\.(txt|csv)$', passwords):
+                with open(passwords, 'r+') as f:
+                    passwords = f.readlines()
+            else:
+                passwords = [passwords]
+        else:
+            raise Exception('Unsupported password types.')
+
         for password in passwords:
             for ip_port in ips:
                 ip_port = ip_port.strip()
                 ip = ip_port.split(':')[0]
                 port = int(ip_port.split(':')[1])
                 logger.debug(f'Connecting to {ip} ......')
-                logger.warning(f'Testing {ip_port} with password: "{password}" !')
-                result = self.poc(ip, port, '', password)
+                logger.warning(f'Testing {ip_port} with password: "{password.strip()}" !')
+                result = self.poc(ip, port, '', password.strip())
                 if result:
-                    asset_io.save2file('redis_success', ip, port, '', password)
+                    asset_io.save2file('redis_success', ip, port, '', password.strip())
 
 
 if __name__ == '__main__':

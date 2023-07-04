@@ -7,11 +7,11 @@ authors = ["antx-code <wkaifeng2007@163.com>"]
 [[tool.poetry.source]]
 name = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple"
-default = true
+priority = "primary"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-psex = "^0.1.3"
+psex = "^0.1.4"
 redis = "^4.3.4"
 SQLAlchemy = "^1.4.40"
 pymongo = "^4.2.0"
@@ -22,7 +22,7 @@ PyMySQL = "^1.0.2"
 clickhouse-sqlalchemy = "^0.2.1"
 pyodbc = "^4.0.34"
 elasticsearch = "7.14.0"
-typer = "^0.6.1"
+typer = {extras = ["all"], version = "^0.9.0"}
 
 [tool.poetry.dev-dependencies]
 
