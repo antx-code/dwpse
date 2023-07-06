@@ -47,15 +47,19 @@ python3 db_scanner.py --help
 ```
 run with default username and password:
 ```shell
-python3 db_scanner.py redis targets.csv
+python3 db_scanner.py mongodb targets.csv
 ```
 use custom username and password:
 ```shell
-python3 db_scanner.py redis targets.csv --passwords=username_password.txt
+python3 db_scanner.py mongodb targets.csv --passwords='username_password.txt'
+```
+or use custom username and password:
+```shell
+python3 db_scanner.py mongodb targets.csv --passwords='root,mongodb'
 ```
 use fofa search and parse assets to verify:
 ```shell
-python3 db_scanner.py redis targets.csv fofa --passwords=username_password.txt --fofa-grammar='app="redis"' --fofa-key='xxx' --fofa-email='xxx@email.com'
+python3 db_scanner.py mongodb targets.csv fofa --passwords='username_password.txt' --fofa-grammar='app="mongodb"' --fofa-key='xxx' --fofa-email='xxx@email.com'
 ```
 ```
 
@@ -69,5 +73,5 @@ python3 db_scanner.py redis targets.csv fofa --passwords=username_password.txt -
 from db_scanner import dia
 
 if __name__ == '__main__':
-    dia('redis', 'targets.csv')
+    dia('mongodb', 'targets.csv')
 ```

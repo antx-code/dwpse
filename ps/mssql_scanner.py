@@ -55,10 +55,12 @@ class MssqlScanner(ScannerEngine):
             if re.search(r'\.(txt|csv)$', passwords):
                 with open(passwords, 'r+') as f:
                     if passwords.endswith('.txt'):
-                        passwords = [line.strip().split() for line in f]
+                        passwords = [{pwd.split(' ')[0].strip(): pwd.split(' ')[1].strip()} for pwd in f.readlines()]
                     elif passwords.endswith('.csv'):
-                        reader = csv.reader(f)
-                        passwords = [row for row in reader]
+                        try:
+                            passwords = [{pwd[0].strip(): pwd[1].strip()} for pwd in csv.reader(f.readlines())]
+                        except Exception as e:
+                            passwords = [{pwd.strip()[0].strip(): pwd.strip()[1].strip()} for pwd in f.readlines()]
                     else:
                         error_message = """
                         csv file content must be like: username,password
@@ -67,7 +69,8 @@ class MssqlScanner(ScannerEngine):
                         console.print(error_message, style="bold red")
                         raise Exception('Unsupported file format.')
             else:
-                passwords = [passwords]
+                pwd = passwords.split(',')
+                passwords = [{pwd[0].strip(): pwd[1].strip()}]
         else:
             raise Exception('Unsupported password types.')
 
